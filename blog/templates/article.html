@@ -1,0 +1,68 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+{{ blog.title }}
+{% endblock %}
+
+{% block content %}
+
+<!--div class="col-sm-1 col-md-1"></div-->
+
+<div class="container" style="padding:0px;border:0px;">
+<div class="col-xs-12 col-sm-9 col-md-9" style="margin-top:70px;padding-bottom:20px;padding-left:5px;padding-right:5px;">
+<div class="blogpoststyle">
+<a class="sortposition" href="/?sort={{blog.classic.name}}">
+<span class="label label-primary" style="padding:10px;-moz-box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2) !important;-webkit-box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2) !important;box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2) !important;border-radius:0px !important;-webkit-border-radius: 0px !important;-moz-border-radius: 0px !important;"><i class="icon-folder-close"></i> {{blog.classic}}</span>
+</a>
+<div style="margin-left:100px;">
+{% for tag in blog.gettags %}
+
+<a class="tagbutton" href="/?tag={{ tag.tagname }}">
+<span class="label label-info" style="font-size:12px;border-radius:10px !important;-webkit-border-radius: 10px !important;-moz-border-radius: 10px !important;"><i class="icon-tag"></i> {{tag.tagname}}</span>
+</a>
+{% endfor %}
+</div>
+
+<div style="padding-top:5px;display:inline-block;width:100%;">
+
+	<div class="page-header" style="margin-top:0px;margin-bottom:0px">
+		<div style="font-size:24px;">
+			<a href='/blog/{{ blog.id }}'>{{blog.title}}</a>
+		</div>
+	</div>
+	<div class="articleinfo"> 
+		<span class='author'>by {{blog.author.displayname}}</span>
+		<time>{{blog.timestamp|date:"Y-m-d"}}</time>
+
+	</div>
+</div>
+	<div>
+		{% autoescape off %}
+		{{ blog.body }}
+		{% endautoescape %}
+	</div>
+	<div class="postfooter">
+		<div class="readarticle" style="float:right !important;">
+			<i class="icon-eye-open"> {{blog.readcount}}</i>
+			<i class="icon-comments"> {{blog.commentcount}}</i>
+		</div>
+	</div>
+<div style="padding-top:10px;width:100%;display:inline-block;border-bottom: 2px solid #428bca;font-size:20px;font-family:Microsoft YaHei;">评论区</div>
+<div>{% include "comment.html" %}</div>
+
+</div>
+</div>
+
+<div class="col-xs-12 col-sm-3 col-md-3" style="margin-top:52px;padding-right:5px;padding-left:5px;">
+	<div>
+		{% include "rightNav.html" %}
+	</div>
+</div>
+</div>
+<!--div class="col-sm-1 col-md-1"></div-->
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

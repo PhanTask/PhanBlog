@@ -1,0 +1,96 @@
+﻿{% for article in articles %}
+<div class="blogpoststyle" style="padding-bottom:38px;">
+<a class="sortposition" href="/?sort={{article.classic.name}}">
+<span class="label label-primary" style="padding:10px;-moz-box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2) !important;-webkit-box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2) !important;box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2) !important;border-radius:0px !important;-webkit-border-radius: 0px !important;-moz-border-radius: 0px !important;"><i class="icon-folder-close"></i> {{article.classic}}</span>
+</a>
+<div style="margin-left:100px;">
+{% for tag in article.gettags %}
+
+<a class="tagbutton" href="/?tag={{ tag.tagname }}">
+<span class="label label-info" style="font-size:12px;border-radius:10px !important;-webkit-border-radius: 10px !important;-moz-border-radius: 10px !important;"><i class="icon-tag"></i> {{tag.tagname}}</span>
+</a>
+{% endfor %}
+</div>
+
+<div style="padding-top:5px;display:inline-block;width:100%;">
+
+	<div class="page-header" style="margin-top:0px;margin-bottom:0px">
+		<div style="font-size:24px;">
+			<a href='/blog/{{ article.id }}'>{{article.title}}</a>
+		</div>
+	</div>
+	<div class="articleinfo"> 
+		<span class='author'>by {{article.author.displayname}}</span>
+		<time>{{article.timestamp|date:"Y-m-d"}}</time>
+
+	</div>
+</div>
+	<div class="summaryinfo">
+		{% autoescape off %}
+		{{ article.abstract }}
+		{% endautoescape %}
+	</div>
+	<div class="postfooter">
+<a href="/blog/{{ article.id }}"><button type="button" class="btn btn-default btn-sm" style="float:right;border-radius: 0px;-webkit-border-radius: 0px;-moz-border-radius: 0px;">Read More>></button></a>
+		<div class="readarticle" style="float:left !important;">
+			<i class="icon-eye-open"> {{article.readcount}}</i>
+			<i class="icon-comments"> {{article.commentcount}}</i>
+		</div>
+	</div>
+</div>
+
+{% endfor %}
+<div>
+{% if hreftag %}
+{% if articles.has_previous %}
+		<a class="pagechanger" title='上一页' href='?tag={{ hreftag }}&page={{ articles.previous_page_number }}'><i class="icon-double-angle-left"></i></a>
+	{% endif %}
+	{% for page in articles.paginator.page_range %}
+                {% if page = articles.number %}
+		
+                <a class="pagechanger" style="background:#5bc0de;" title="当前页:{{ page }}">{{ page }}</a>
+	
+             	{% else %}
+ 
+                <a class='pagechanger' href="?tag={{ hreftag }}&page={{ page }}" title="{{ page }}">{{ page }}</a>
+                {% endif %}
+	{% endfor %}
+	{% if articles.has_next %}
+		<a class="pagechanger" title='下一页' href='?tag={{ hreftag }}&page={{ articles.next_page_number }}'><i class="icon-double-angle-right"></i></a>
+	{% endif %}
+{% elif hrefsort %}
+{% if articles.has_previous %}
+		<a class="pagechanger" title='上一页' href='?sort={{ hrefsort }}&page={{ articles.previous_page_number }}'><i class="icon-double-angle-left"></i></a>
+	{% endif %}
+	{% for page in articles.paginator.page_range %}
+                {% if page = articles.number %}
+		
+                <a class="pagechanger" style="background:#5bc0de;" title="当前页:{{ page }}">{{ page }}</a>
+	
+             	{% else %}
+ 
+                <a class='pagechanger' href="?sort={{ hrefsort }}&page={{ page }}" title="{{ page }}">{{ page }}</a>
+                {% endif %}
+	{% endfor %}
+	{% if articles.has_next %}
+		<a class="pagechanger" title='下一页' href='?sort={{ hrefsort }}&page={{ articles.next_page_number }}'><i class="icon-double-angle-right"></i></a>
+	{% endif %}
+{% else %}
+{% if articles.has_previous %}
+		<a class="pagechanger" title='上一页' href='?page={{ articles.previous_page_number }}'><i class="icon-double-angle-left"></i></a>
+	{% endif %}
+	{% for page in articles.paginator.page_range %}
+                {% if page = articles.number %}
+		
+                <a class="pagechanger" style="background:#5bc0de;" title="当前页:{{ page }}">{{ page }}</a>
+	
+             	{% else %}
+ 
+                <a class='pagechanger' href="?page={{ page }}" title="{{ page }}">{{ page }}</a>
+                {% endif %}
+	{% endfor %}
+	{% if articles.has_next %}
+		<a class="pagechanger" title='下一页' href='?page={{ articles.next_page_number }}'><i class="icon-double-angle-right"></i></a>
+	{% endif %}
+{% endif %}
+</div>

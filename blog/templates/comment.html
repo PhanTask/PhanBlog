@@ -1,0 +1,91 @@
+﻿<div id="#comment" class="comment">
+	<div>
+		{% if not thesecomments%}
+		<div style="padding:20px;color:#eeeeee;width:100%;display:inline-block;text-align:center;font-size:28px;font-family:Microsoft YaHei;">暂无评论</div>
+		{% else %}
+		{% for comment in thesecomments %}
+		<section class="comment-item" style="-webkit-border-radius: 5px #DDF0ED;
+                      -moz-border-radius: 5px #DDF0ED;
+                      -webkit-box-shadow: 2px 2px 2px #DDF0ED;  
+                      -moz-box-shadow: 2px 2px 2px #DDF0ED;  
+                      box-shadow: 2px 2px 2px #DDF0ED;">
+		<div class="comment-content fmt"><p>{{ comment.commentator }}({{comment.email}}) 评论于 {{comment.comment_date|date:"Y-m-d H:i:s"}}:</p></div>
+		<div class="comment-meta">{{ comment.comment_content|linebreaks }}
+                        <span>
+			{{ forloop.counter }}楼
+			</span>
+		</div>
+                {% if comment.comment_reply != '' %}
+                <style>
+                .box1{
+                      background-color: #DDF0ED;
+                      color:#3276b1;
+                      padding:10px;
+                      margin-right:40px;
+                      -webkit-border-radius: 5px;
+                      -moz-border-radius: 5px;
+                      -webkit-box-shadow: 2px 2px 2px;  
+                      -moz-box-shadow: 2px 2px 2px;  
+                      box-shadow: 2px 2px 2px;  
+                     }
+                 </style>
+                <div class="box1">PhanTask 回复道：{{ comment.comment_reply|linebreaks }}</div>
+                {% endif %}
+	</section>
+		{% endfor %}
+		{% endif %}
+	</div>
+<div class="commentarea" style="display:inline-block;width:100%;">
+	<div class="pull-left" style="width:50%">
+	<input type="text" class="form-control" id="nickname" placeholder="请输入昵称"><br />
+	<input type="email" class="form-control" id="commentator_email" placeholder="请输入邮箱"><br/>
+	</div>
+	<div><textarea class="form-control" id="comment_content" rows="5" placeholder="请输入评论" style="max-width:100%;"></textarea></div>
+	<div class="pull-right" style="padding-top:10px;"><button type="button" onclick="commit_comment()" class="btn btn-primary">提交评论</button></div>
+</div>
+
+</div>
+<script type="text/javascript">
+function commit_comment(){
+	var articleId = "{{ blog.id }}";
+	var nickname = $("#nickname").val();
+	var commentator_email = $("#commentator_email").val();
+	var content = $("#comment_content").val();
+        var date = $("#comment_date").val();
+	var data = {"articleId":articleId,"nickname":nickname,"email":commentator_email,"content":content,"commentdate":date}
+		if(nickname == '')
+	{
+		alert("请填写您的昵称");
+		return;
+	}
+		if(content == '')
+	{
+		alert("评论内容不能为空");
+		return;
+	}
+	asynCommitComment(data);
+}
+
+function alertt(){
+alert("hello");
+}
+
+function asynCommitComment(data){
+	$.ajax({
+		type:"post",
+		url:"/blog/comment",
+		data:data,
+		success:function(result){
+			//alert("1");
+		},
+		complete:function(result){
+			alert("评论提交成功！");
+			window.location.href = window.location.href;
+		},
+		error:function(a,b,c){
+alert("评论提交失败！");
+		}
+	});
+}
+</script>
+

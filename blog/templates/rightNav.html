@@ -1,0 +1,60 @@
+﻿<div class="list-group" style="opacity:0.9;  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);-webkit-border-radius: 5px;
+                      -moz-border-radius: 5px;">
+<a class="list-group-item active" href="/blog/" style="height:30px;padding-top:5px;padding-left:15px;-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);">所有类型</a>
+{% for item in classes %}
+<a class="list-group-item" href="/?sort={{ item.name}}">
+<span class="badge">{{item.blogcount}}</span>{{item.name}}</a>
+{% endfor %}
+</div>
+<script type="text/javascript">
+var list = {{tagCloud|safe}};
+var word_array = new Array(); 
+for( i in list)
+{
+var temp = list[i][0];
+word_array.push({text:list[i][0],weight:list[i][1],link:"/?tag="+temp});
+}
+$(function() {
+        $("#example").jQCloud(word_array);
+      });
+</script>
+<div class="widget">
+<div class="page-header" style="margin-top:0px;margin-bottom:0px">
+<h4 style="padding-top:5px;line-height:0px;font-family:Microsoft YaHei;">标签云</h4>
+</div>
+<div id="example" style="width: 200px; height: 200px;"></div>
+</div>
+
+<div class="widget">
+<div class="page-header" style="margin-top:0px;margin-bottom:0px;">
+<h4 style="padding-top:5px;line-height:0px;font-family:Microsoft YaHei;">最新评论</h4>
+</div>
+<div class="list-group" style="border: 0px;">
+{% for comment in comments|slice:":10" %}
+<a class="list-group-item moveleft" href="/blog/{{ comment.blog.id }}" style="margin-bottom:0px;border: 0px;border-bottom: 1px solid #ddd;">
+<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><span class="recent-commentator">{{comment.commentator}}</span> 在 <span class="recent-commentblog">《{{comment.blog.title}}》</span></div>
+<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">评论道:“{{comment.comment_content}}”</div>
+</a>
+{% endfor %}
+</div>
+
+</div>
+
+
+<div class="widget">
+<div class="page-header" style="margin-top:0px;margin-bottom:0px">
+<h4 id="jq" style="padding-top:5px;line-height:0px;font-family:Microsoft YaHei;">友情链接</h4>
+</div>
+<ul  style="padding-top:10px;line-height:10px;font-size:14px;font-family:Microsoft YaHei;">
+    <li id="xc"><a href="http://www.xczhou.cn">xczhou的blog</a></li>
+</ul>
+</div>
+
+<script>
+document.getElementById("xc").onmouseover = function(e){document.getElementById('jq').innerHTML="基情链接" };
+document.getElementById("xc").onmouseout = function(e){document.getElementById('jq').innerHTML="友情链接" };
+</script>
